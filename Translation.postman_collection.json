@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "e475a415-d011-4cb6-b5ca-a00cd5f76175",
+		"name": "Translation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23207395"
+	},
+	"item": [
+		{
+			"name": "Fetch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const translations = pm.response.json();",
+							"console.log(translations)",
+							"// pm.test(\"Translation data is valid\", () => {",
+							"//   pm.expect(translation).to.be.an(\"object\")",
+							"//   pm.expect(project).to.have.all.keys(\"data\", \"meta\")",
+							"// });",
+							"",
+							"",
+							"// pm.globals.set(\"translationId\", project.data[0].id)",
+							"// console.log(project.data[0].id)",
+							"",
+							"",
+							"const expectedSchema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"status\": {",
+							"      \"type\": \"string\",",
+							"    },",
+							"    \"translations\": {",
+							"      \"type\": \"array\",",
+							"      \"items\": {",
+							"        \"type\": \"object\",",
+							"        \"properties\": {",
+							"          \"_id\": {",
+							"            \"type\": \"string\",",
+							"          },",
+							"          \"word\": {",
+							"            \"type\": \"string\",",
+							"",
+							"          },",
+							"          \"targetLanguage\": {",
+							"            \"type\": \"string\",",
+							"          },",
+							"          \"translation\": {",
+							"            \"type\": \"string\",",
+							"          },",
+							"          \"__v\": {",
+							"            \"type\": \"integer\",",
+							"            \"description\": \"A version field (e.g., for database versioning).\"",
+							"          }",
+							"        },",
+							"        \"required\": [\"_id\", \"word\", \"targetLanguage\", \"translation\", \"__v\"],",
+							"      }",
+							"    }",
+							"  },",
+							"  \"required\": [\"status\", \"translations\"],",
+							"  \"additionalProperties\": false",
+							"}",
+							"",
+							"",
+							"pm.test(\"Verify JSON Schema\", ()=>{",
+							"    pm.response.to.have.jsonSchema(expectedSchema)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/v1/translation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"translation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const translation = pm.response.json();",
+							"",
+							"pm.test(\"Translation data is valid\", () => {",
+							"  pm.expect(translation).to.be.an(\"object\")",
+							"});",
+							"",
+							"const expectedSchema = {",
+							"  \"type\": \"object\",",
+							"  \"properties\": {",
+							"    \"text\": {",
+							"      \"type\": \"string\",",
+							"    },",
+							"    \"translation\": {",
+							"      \"type\": \"string\",",
+							"    }",
+							"  },",
+							"  \"required\": [\"text\", \"translation\"],",
+							"  \"additionalProperties\": false",
+							"}",
+							"",
+							"",
+							"pm.test(\"Verify JSON Schema\", ()=>{",
+							"    pm.response.to.have.jsonSchema(expectedSchema)",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"how are you\", \n    \"targetLanguage\": \"vi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/translation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"translation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/v1/translation/{{translationId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"v1",
+						"translation",
+						"{{translationId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
